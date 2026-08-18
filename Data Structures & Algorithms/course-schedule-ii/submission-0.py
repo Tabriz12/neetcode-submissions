@@ -1,0 +1,37 @@
+from collections import defaultdict, deque
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+
+        reqs = defaultdict(set)
+
+        dep = defaultdict(int)
+        for c, r in prerequisites:
+
+            reqs[r].add(c)
+
+            dep[c]+=1
+        
+
+        q = deque([i for i in range(numCourses) if dep[i]==0])
+
+        res = []
+        
+        while q:
+
+
+            top = q.popleft()
+
+            res.append(top)
+
+            for req in reqs[top]:
+
+                dep[req] -=1
+
+                if dep[req] == 0:
+
+                    q.append(req)
+        
+
+
+        return res if len(res) == numCourses else []
+        
